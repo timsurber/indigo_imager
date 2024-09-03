@@ -2,10 +2,17 @@ name: Build ain_imager and ain_viewer
 
 on:
   workflow_dispatch:
+    inputs:
+      os:
+        type: choice
+        description: Host OS for building the binaries
+        options:
+        - ubuntu-24.04
+        - ubuntu-22.04
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ inputs.os }}
 
     steps:
     - name: Checkout code
