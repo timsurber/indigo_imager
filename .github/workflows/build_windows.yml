@@ -1,0 +1,47 @@
+name: Build ain_imager and ain_viewer for Windows
+
+on:
+  workflow_dispatch:
+    inputs:
+      os:
+        type: choice
+        description: Host OS for building the binaries
+        options:
+        - windows-2022
+        - windows-2019
+
+jobs:
+  build:
+    runs-on: ${{ inputs.os }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up build tools
+      run: |
+        choco install -y aqt innosetup
+
+    - name: Install Qt
+      shell: bash
+      run: |
+        mkdir /c/Qt
+        cd /c/Qt
+        aqt install-qt windows desktop 6.4.2 win64_mingw -m qtmultimedia
+
+    - name: Run Windows build script
+      shell: bash
+      run: |
+        cd windows
+        build_windows.sh
+
+    - name: Archive ain_imager setup
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ain_imager_windows_setup
+        path: windows/Output/*.exe
+        
+
+
+
