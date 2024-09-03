@@ -22,7 +22,7 @@ jobs:
       run: |
         sudo su -c 'echo "deb [trusted=yes] https://indigo-astronomy.github.io/indigo_ppa/ppa indigo main" > /etc/apt/sources.list.d/indigo.list'
         sudo apt-get update
-        sudo apt-get install -y qt6-base-dev qtchooser qmake6 qt6-base-dev-tools qt6-multimedia-dev libz-dev libtool g++ make autoconf indigo
+        sudo apt-get install -y qt6-base-dev qtchooser qmake6 qt6-base-dev-tools qt6-multimedia-dev libz-dev libtool g++ make autoconf indigo libgl-dev
 
     - name: Build libraries
       run: |
