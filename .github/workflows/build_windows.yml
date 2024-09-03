@@ -33,7 +33,7 @@ jobs:
       shell: bash
       run: |
         cd windows
-        build_windows.sh
+        ./build_windows.sh
 
     - name: Archive ain_imager setup
       if: success()
