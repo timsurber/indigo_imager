@@ -19,6 +19,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/time.h>
+
+#   define localtime_r(T,Tm) (localtime_s(Tm,T) ? NULL : Tm)
 #include <libgen.h>
 
 #include <utils.h>
