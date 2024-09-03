@@ -120,7 +120,7 @@ INCLUDEPATH += "$$PWD/../indigo/indigo_libs" \
 			   "$$PWD/../ain_imager_src"
 
 unix:!mac | win32 {
-	LIBS += -L"$$PWD/../external/libraw/lib" -L"$$PWD/../../external/libraw/lib" -L"$$PWD/../external/lz4" -L"$$PWD/../../external/lz4" -lraw -lz
+	LIBS += -L"$$PWD/../external/libraw/lib" -L"$$PWD/../external/lz4" -lraw -lz
 }
 
 unix {
@@ -142,6 +142,6 @@ DISTFILES += \
 
 win32 {
 	DEFINES += INDIGO_WINDOWS
-	INCLUDEPATH += $$PWD/../../external/indigo_sdk/include
-	LIBS += -llz4 $$PWD/../../external/indigo_sdk/lib/libindigo_client.lib -lws2_32
+	INCLUDEPATH += "$$PWD/../external/indigo_sdk/include"
+	LIBS += -llz4 "$$PWD/../external/indigo_sdk/lib/libindigo_client.lib" -lws2_32
 }
