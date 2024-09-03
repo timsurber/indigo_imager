@@ -2,10 +2,17 @@ name: Build ain_imager and ain_viewer
 
 on:
   workflow_dispatch:
+    inputs:
+      os:
+        type: choice
+        description: Host OS for building the binaries
+        options:
+        - ubuntu-24.04
+        - ubuntu-22.04
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ inputs.os }}
 
     steps:
     - name: Checkout code
@@ -15,7 +22,7 @@ jobs:
       run: |
         sudo su -c 'echo "deb [trusted=yes] https://indigo-astronomy.github.io/indigo_ppa/ppa indigo main" > /etc/apt/sources.list.d/indigo.list'
         sudo apt-get update
-        sudo apt-get install -y qt6-base-dev qtchooser qmake6 qt6-base-dev-tools qt6-multimedia-dev libz-dev libtool g++ make autoconf indigo
+        sudo apt-get install -y qt6-base-dev qtchooser qmake6 qt6-base-dev-tools qt6-multimedia-dev libz-dev libtool g++ make autoconf indigo libgl-dev
 
     - name: Build libraries
       run: |
