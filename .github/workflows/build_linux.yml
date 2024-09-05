@@ -1,0 +1,53 @@
+name: Build ain_imager and ain_viewer
+
+on:
+  workflow_dispatch:
+    inputs:
+      os:
+        type: choice
+        description: Host OS for building the binaries
+        options:
+        - ubuntu-24.04
+        - ubuntu-22.04
+
+jobs:
+  build:
+    runs-on: ${{ inputs.os }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up dependencies
+      run: |
+        sudo su -c 'echo "deb [trusted=yes] https://indigo-astronomy.github.io/indigo_ppa/ppa indigo main" > /etc/apt/sources.list.d/indigo.list'
+        sudo apt-get update
+        #sudo apt-get install -y qt6-base-dev qtchooser qmake6 qt6-base-dev-tools qt6-multimedia-dev libz-dev libtool g++ make autoconf indigo libgl-dev
+        sudo apt-get install -y qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools qtmultimedia5-dev libz-dev libtool g++ make autoconf indigo libgl-dev
+
+    - name: Build libraries
+      run: |
+        chmod +x ./build_libs.sh
+        ./build_libs.sh
+
+    - name: Generate Makefile using qmake6
+      #run: qmake6
+      run: qmake
+
+    - name: Compile the project
+      run: make
+
+    - name: Archive ain_imager binary
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ain_imager
+        path: ain_imager_src/ain_imager
+        
+    - name: Archive ain_viewer binary
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ain_viewer
+        path: ain_viewer_src/ain_viewer
+
