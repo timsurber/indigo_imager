@@ -22,7 +22,8 @@ jobs:
       run: |
         sudo su -c 'echo "deb [trusted=yes] https://indigo-astronomy.github.io/indigo_ppa/ppa indigo main" > /etc/apt/sources.list.d/indigo.list'
         sudo apt-get update
-        sudo apt-get install -y qt6-base-dev qtchooser qmake6 qt6-base-dev-tools qt6-multimedia-dev libz-dev libtool g++ make autoconf indigo libgl-dev
+        #sudo apt-get install -y qt6-base-dev qtchooser qmake6 qt6-base-dev-tools qt6-multimedia-dev libz-dev libtool g++ make autoconf indigo libgl-dev
+        sudo apt-get install -y qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools qtmultimedia5-dev libz-dev libtool g++ make autoconf indigo libgl-dev
 
     - name: Build libraries
       run: |
@@ -30,7 +31,8 @@ jobs:
         ./build_libs.sh
 
     - name: Generate Makefile using qmake6
-      run: qmake6
+      #run: qmake6
+      run: qmake
 
     - name: Compile the project
       run: make
